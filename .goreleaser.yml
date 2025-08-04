@@ -1,0 +1,85 @@
+project_name: tfplan-commenter
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: linux
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X main.Version={{.Version}}
+      - -X main.GitCommit={{.Commit}}
+      - -X main.BuildDate={{.Date}}
+    binary: tfplan-commenter
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+
+release:
+  github:
+    owner: akomic
+    name: go-tfplan-commenter
+  draft: false
+  prerelease: auto
+  name_template: "Release {{.Version}}"
+  header: |
+    ## Changes in {{.Version}}
+    
+    ### Downloads
+    - **Linux (x86_64)**: `tfplan-commenter_Linux_x86_64.tar.gz`
+    - **macOS (Intel)**: `tfplan-commenter_Darwin_x86_64.tar.gz`  
+    - **macOS (Apple Silicon)**: `tfplan-commenter_Darwin_arm64.tar.gz`
+    
+    ### Installation
+    
+    #### Quick Install
+    ```bash
+    curl -sSL https://raw.githubusercontent.com/akomic/go-tfplan-commenter/main/install.sh | bash
+    ```
+    
+    #### Manual Install
+    1. Download the appropriate archive for your platform
+    2. Extract: `tar -xzf tfplan-commenter_*.tar.gz`
+    3. Move to your PATH: `mv tfplan-commenter /usr/local/bin/`
+    
+    ### Usage
+    ```bash
+    tfplan-commenter plan.json
+    tfplan-commenter -version
+    tfplan-commenter -help
+    ```
