@@ -19,9 +19,9 @@ var (
 
 // TerraformPlan represents the structure of a Terraform plan JSON
 type TerraformPlan struct {
-	FormatVersion     string            `json:"format_version"`
-	TerraformVersion  string            `json:"terraform_version"`
-	ResourceChanges   []ResourceChange  `json:"resource_changes"`
+	FormatVersion    string           `json:"format_version"`
+	TerraformVersion string           `json:"terraform_version"`
+	ResourceChanges  []ResourceChange `json:"resource_changes"`
 }
 
 // ResourceChange represents a single resource change in the plan
@@ -157,52 +157,52 @@ func readTerraformPlan(filename string) (*TerraformPlan, error) {
 
 func generateMarkdownComment(plan *TerraformPlan) string {
 	summary := analyzeResourceChanges(plan.ResourceChanges)
-	
+
 	var md strings.Builder
-	
+
 	// Header
 	md.WriteString("## 📋 Terraform Plan Summary\n\n")
-	
+
 	// Overall statistics
 	totalChanges := len(summary.Create) + len(summary.Update) + len(summary.Delete) + len(summary.Replace)
-	
+
 	if totalChanges == 0 {
 		md.WriteString("✅ **No changes detected** - Infrastructure is up to date!\n\n")
 		return md.String()
 	}
-	
+
 	md.WriteString(fmt.Sprintf("**Total resources affected:** %d\n\n", totalChanges))
-	
+
 	// Summary table
 	md.WriteString("| Action | Count | Resources |\n")
 	md.WriteString("|--------|-------|----------|\n")
-	
+
 	if len(summary.Create) > 0 {
-		md.WriteString(fmt.Sprintf("| 🟢 **Create** | %d | %s |\n", 
-			len(summary.Create), 
+		md.WriteString(fmt.Sprintf("| 🟢 **Create** | %d | %s |\n",
+			len(summary.Create),
 			formatResourceList(summary.Create, 3)))
 	}
-	
+
 	if len(summary.Update) > 0 {
-		md.WriteString(fmt.Sprintf("| 🟡 **Update** | %d | %s |\n", 
-			len(summary.Update), 
+		md.WriteString(fmt.Sprintf("| 🟡 **Update** | %d | %s |\n",
+			len(summary.Update),
 			formatResourceList(summary.Update, 3)))
 	}
-	
+
 	if len(summary.Replace) > 0 {
-		md.WriteString(fmt.Sprintf("| 🔄 **Replace** | %d | %s |\n", 
-			len(summary.Replace), 
+		md.WriteString(fmt.Sprintf("| 🔄 **Replace** | %d | %s |\n",
+			len(summary.Replace),
 			formatResourceList(summary.Replace, 3)))
 	}
-	
+
 	if len(summary.Delete) > 0 {
-		md.WriteString(fmt.Sprintf("| 🔴 **Delete** | %d | %s |\n", 
-			len(summary.Delete), 
+		md.WriteString(fmt.Sprintf("| 🔴 **Delete** | %d | %s |\n",
+			len(summary.Delete),
 			formatResourceList(summary.Delete, 3)))
 	}
-	
+
 	md.WriteString("\n")
-	
+
 	// Detailed sections for each action type
 	if len(summary.Create) > 0 {
 		md.WriteString("### 🟢 Resources to be Created\n\n")
@@ -211,7 +211,7 @@ func generateMarkdownComment(plan *TerraformPlan) string {
 		}
 		md.WriteString("\n")
 	}
-	
+
 	if len(summary.Update) > 0 {
 		md.WriteString("### 🟡 Resources to be Updated\n\n")
 		for _, resource := range summary.Update {
@@ -220,15 +220,15 @@ func generateMarkdownComment(plan *TerraformPlan) string {
 				md.WriteString("**Attributes being modified:**\n\n")
 				for _, change := range resource.Changes {
 					if change.IsNew {
-						md.WriteString(fmt.Sprintf("- **%s**: %s *(new)*\n", 
+						md.WriteString(fmt.Sprintf("- **%s**: %s *(new)*\n",
 							change.Attribute, formatAttributeValue(change.After)))
 					} else if change.IsRemoved {
-						md.WriteString(fmt.Sprintf("- **%s**: %s *(removed)*\n", 
+						md.WriteString(fmt.Sprintf("- **%s**: %s *(removed)*\n",
 							change.Attribute, formatAttributeValue(change.Before)))
 					} else {
-						md.WriteString(fmt.Sprintf("- **%s**: %s → %s\n", 
-							change.Attribute, 
-							formatAttributeValue(change.Before), 
+						md.WriteString(fmt.Sprintf("- **%s**: %s → %s\n",
+							change.Attribute,
+							formatAttributeValue(change.Before),
 							formatAttributeValue(change.After)))
 					}
 				}
@@ -238,7 +238,7 @@ func generateMarkdownComment(plan *TerraformPlan) string {
 			md.WriteString("\n")
 		}
 	}
-	
+
 	if len(summary.Replace) > 0 {
 		md.WriteString("### 🔄 Resources to be Replaced\n\n")
 		for _, resource := range summary.Replace {
@@ -250,15 +250,15 @@ func generateMarkdownComment(plan *TerraformPlan) string {
 				md.WriteString("**Attribute changes:**\n\n")
 				for _, change := range resource.Changes {
 					if change.IsNew {
-						md.WriteString(fmt.Sprintf("- **%s**: %s *(new)*\n", 
+						md.WriteString(fmt.Sprintf("- **%s**: %s *(new)*\n",
 							change.Attribute, formatAttributeValue(change.After)))
 					} else if change.IsRemoved {
-						md.WriteString(fmt.Sprintf("- **%s**: %s *(removed)*\n", 
+						md.WriteString(fmt.Sprintf("- **%s**: %s *(removed)*\n",
 							change.Attribute, formatAttributeValue(change.Before)))
 					} else {
-						md.WriteString(fmt.Sprintf("- **%s**: %s → %s\n", 
-							change.Attribute, 
-							formatAttributeValue(change.Before), 
+						md.WriteString(fmt.Sprintf("- **%s**: %s → %s\n",
+							change.Attribute,
+							formatAttributeValue(change.Before),
 							formatAttributeValue(change.After)))
 					}
 				}
@@ -266,7 +266,7 @@ func generateMarkdownComment(plan *TerraformPlan) string {
 			md.WriteString("\n")
 		}
 	}
-	
+
 	if len(summary.Delete) > 0 {
 		md.WriteString("### 🔴 Resources to be Deleted\n\n")
 		for _, resource := range summary.Delete {
@@ -276,11 +276,11 @@ func generateMarkdownComment(plan *TerraformPlan) string {
 			}
 		}
 	}
-	
+
 	// Footer
 	md.WriteString("---\n")
 	md.WriteString(fmt.Sprintf("*Generated from Terraform %s plan*\n", plan.TerraformVersion))
-	
+
 	return md.String()
 }
 
@@ -291,16 +291,16 @@ func analyzeResourceChanges(changes []ResourceChange) ResourceSummary {
 		Delete:  make([]ResourceDetail, 0),
 		Replace: make([]ResourceDetail, 0),
 	}
-	
+
 	for _, change := range changes {
 		resourceName := change.Address
 		actions := change.Change.Actions
-		
+
 		detail := ResourceDetail{
 			Address: resourceName,
 			Changes: analyzeAttributeChanges(change.Change),
 		}
-		
+
 		// Determine the primary action
 		if containsAction(actions, "create") && containsAction(actions, "delete") {
 			// This is a replace operation
@@ -315,13 +315,13 @@ func analyzeResourceChanges(changes []ResourceChange) ResourceSummary {
 			summary.Delete = append(summary.Delete, detail)
 		}
 	}
-	
+
 	// Sort all slices for consistent output
 	sortResourceDetails(summary.Create)
 	sortResourceDetails(summary.Update)
 	sortResourceDetails(summary.Delete)
 	sortResourceDetails(summary.Replace)
-	
+
 	return summary
 }
 
@@ -338,32 +338,32 @@ func formatResourceList(resources []ResourceDetail, maxDisplay int) string {
 	if len(resources) == 0 {
 		return ""
 	}
-	
+
 	resourceNames := make([]string, len(resources))
 	for i, r := range resources {
 		resourceNames[i] = r.Address
 	}
-	
+
 	if len(resourceNames) <= maxDisplay {
 		return strings.Join(resourceNames, ", ")
 	}
-	
+
 	displayed := resourceNames[:maxDisplay]
 	remaining := len(resourceNames) - maxDisplay
-	
+
 	return fmt.Sprintf("%s, ... (+%d more)", strings.Join(displayed, ", "), remaining)
 }
 
 func analyzeAttributeChanges(change Change) []AttributeChange {
 	var changes []AttributeChange
-	
+
 	beforeMap, beforeOk := change.Before.(map[string]interface{})
 	afterMap, afterOk := change.After.(map[string]interface{})
-	
+
 	if !beforeOk || !afterOk {
 		return changes
 	}
-	
+
 	// Find all unique keys
 	allKeys := make(map[string]bool)
 	for key := range beforeMap {
@@ -372,17 +372,17 @@ func analyzeAttributeChanges(change Change) []AttributeChange {
 	for key := range afterMap {
 		allKeys[key] = true
 	}
-	
+
 	// Analyze each attribute
 	for key := range allKeys {
 		beforeVal, beforeExists := beforeMap[key]
 		afterVal, afterExists := afterMap[key]
-		
+
 		// Skip certain system attributes that are not meaningful to users
 		if shouldSkipAttribute(key) {
 			continue
 		}
-		
+
 		if !beforeExists && afterExists {
 			// New attribute
 			changes = append(changes, AttributeChange{
@@ -408,7 +408,7 @@ func analyzeAttributeChanges(change Change) []AttributeChange {
 			})
 		}
 	}
-	
+
 	return changes
 }
 
@@ -416,7 +416,7 @@ func shouldSkipAttribute(key string) bool {
 	skipAttributes := []string{
 		"id", "arn", "tags_all", "timeouts",
 	}
-	
+
 	for _, skip := range skipAttributes {
 		if key == skip {
 			return true
@@ -431,23 +431,23 @@ func deepEqual(a, b interface{}) bool {
 
 func determineReplaceReason(change Change) string {
 	changes := analyzeAttributeChanges(change)
-	
+
 	// Look for attributes that commonly force replacement
 	forceReplaceAttrs := []string{"name", "family", "engine", "vpc_id", "availability_zone"}
-	
+
 	for _, attrChange := range changes {
 		for _, forceAttr := range forceReplaceAttrs {
 			if attrChange.Attribute == forceAttr {
-				return fmt.Sprintf("Attribute '%s' changed from '%v' to '%v' (forces replacement)", 
+				return fmt.Sprintf("Attribute '%s' changed from '%v' to '%v' (forces replacement)",
 					attrChange.Attribute, attrChange.Before, attrChange.After)
 			}
 		}
 	}
-	
+
 	if len(changes) > 0 {
 		return fmt.Sprintf("Multiple attribute changes require replacement")
 	}
-	
+
 	return "Resource configuration requires replacement"
 }
 
@@ -457,21 +457,21 @@ func determineDeleteReason(change Change) string {
 	if !ok {
 		return "Resource marked for deletion"
 	}
-	
+
 	// Identify key attributes that might explain why it's being deleted
 	keyAttrs := []string{"name", "id", "family", "engine"}
 	var identifiers []string
-	
+
 	for _, attr := range keyAttrs {
 		if val, exists := beforeMap[attr]; exists && val != nil {
 			identifiers = append(identifiers, fmt.Sprintf("%s: %v", attr, val))
 		}
 	}
-	
+
 	if len(identifiers) > 0 {
 		return fmt.Sprintf("Resource with %s", strings.Join(identifiers, ", "))
 	}
-	
+
 	return "Resource marked for deletion"
 }
 
@@ -485,7 +485,7 @@ func formatAttributeValue(val interface{}) string {
 	if val == nil {
 		return "(null)"
 	}
-	
+
 	switch v := val.(type) {
 	case string:
 		if v == "" {
