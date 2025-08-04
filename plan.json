@@ -1,0 +1,2209 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.9.8",
+  "variables": {
+    "Environment": {
+      "value": "d1"
+    },
+    "engine": {
+      "value": "redis"
+    },
+    "engine_version": {
+      "value": "6.2"
+    },
+    "family": {
+      "value": "redis6.x"
+    },
+    "instance_type": {
+      "value": "cache.t4g.small"
+    },
+    "maintenance_window": {
+      "value": "sun:05:00-sun:06:00"
+    },
+    "num_cache_nodes": {
+      "value": "1"
+    },
+    "port": {
+      "value": "6379"
+    },
+    "region": {
+      "value": "us-east-1"
+    },
+    "remote_state_s3_bucket": {
+      "value": "cnvy-d1.tf"
+    },
+    "template_name": {
+      "value": "tf-aws-elasticache-redis"
+    },
+    "zone": {
+      "value": "private"
+    }
+  },
+  "planned_values": {
+    "outputs": {
+      "cache_security_group_id": {
+        "sensitive": false,
+        "type": "string",
+        "value": "sg-0d2e3e7c544d3492d"
+      },
+      "endpoint": {
+        "sensitive": false,
+        "type": "string",
+        "value": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com:6379"
+      },
+      "fqdn": {
+        "sensitive": false,
+        "type": "string",
+        "value": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com"
+      },
+      "hostname": {
+        "sensitive": false,
+        "type": "string",
+        "value": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com"
+      },
+      "port": {
+        "sensitive": false,
+        "type": "number",
+        "value": 6379
+      }
+    },
+    "root_module": {
+      "child_modules": [
+        {
+          "resources": [
+            {
+              "address": "module.elasticache_redis.aws_elasticache_cluster.cluster",
+              "mode": "managed",
+              "type": "aws_elasticache_cluster",
+              "name": "cluster",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 0,
+              "values": {
+                "apply_immediately": null,
+                "arn": "arn:aws:elasticache:us-east-1:402227800931:cluster:d1-redis",
+                "auto_minor_version_upgrade": "true",
+                "availability_zone": "us-east-1f",
+                "az_mode": "single-az",
+                "cache_nodes": [
+                  {
+                    "address": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+                    "availability_zone": "us-east-1f",
+                    "id": "0001",
+                    "outpost_arn": "",
+                    "port": 6379
+                  }
+                ],
+                "cluster_address": null,
+                "cluster_id": "d1-redis",
+                "configuration_endpoint": null,
+                "engine": "redis",
+                "engine_version": "6.2",
+                "engine_version_actual": "6.2.6",
+                "final_snapshot_identifier": null,
+                "id": "d1-redis",
+                "ip_discovery": "ipv4",
+                "log_delivery_configuration": [],
+                "maintenance_window": "sun:05:00-sun:06:00",
+                "network_type": "ipv4",
+                "node_type": "cache.t4g.small",
+                "notification_topic_arn": null,
+                "num_cache_nodes": 1,
+                "outpost_mode": null,
+                "port": 6379,
+                "preferred_availability_zones": null,
+                "preferred_outpost_arn": "",
+                "replication_group_id": "",
+                "security_group_ids": [
+                  "sg-0d2e3e7c544d3492d"
+                ],
+                "snapshot_arns": null,
+                "snapshot_name": null,
+                "snapshot_retention_limit": 0,
+                "snapshot_window": "10:00-11:00",
+                "subnet_group_name": "subnet-group-d1-redis",
+                "tags": {
+                  "Environment": "d1",
+                  "Name": "d1",
+                  "Terraform": "true"
+                },
+                "tags_all": {
+                  "Environment": "d1",
+                  "Name": "d1",
+                  "Terraform": "true"
+                },
+                "transit_encryption_enabled": false
+              },
+              "sensitive_values": {
+                "cache_nodes": [
+                  {}
+                ],
+                "log_delivery_configuration": [],
+                "security_group_ids": [
+                  false
+                ],
+                "tags": {},
+                "tags_all": {}
+              }
+            },
+            {
+              "address": "module.elasticache_redis.aws_elasticache_parameter_group.default",
+              "mode": "managed",
+              "type": "aws_elasticache_parameter_group",
+              "name": "default",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 0,
+              "values": {
+                "description": "Managed by Terraform",
+                "family": "redis6.x",
+                "name": "d1-redis6.x-cache-params",
+                "parameter": [
+                  {
+                    "name": "databases",
+                    "value": "64"
+                  }
+                ],
+                "tags": null
+              },
+              "sensitive_values": {
+                "parameter": [
+                  {}
+                ],
+                "tags_all": {}
+              }
+            },
+            {
+              "address": "module.elasticache_redis.aws_elasticache_subnet_group.default",
+              "mode": "managed",
+              "type": "aws_elasticache_subnet_group",
+              "name": "default",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 0,
+              "values": {
+                "arn": "arn:aws:elasticache:us-east-1:402227800931:subnetgroup:subnet-group-d1-redis",
+                "description": "Private subnets for the ElastiCache instances: d1",
+                "id": "subnet-group-d1-redis",
+                "name": "subnet-group-d1-redis",
+                "subnet_ids": [
+                  "subnet-057a6fcd0eb6cb7c0",
+                  "subnet-0f51cac6c06023342"
+                ],
+                "tags": {},
+                "tags_all": {},
+                "vpc_id": "vpc-0ed226256711d6ba2"
+              },
+              "sensitive_values": {
+                "subnet_ids": [
+                  false,
+                  false
+                ],
+                "tags": {},
+                "tags_all": {}
+              }
+            },
+            {
+              "address": "module.elasticache_redis.aws_security_group.main_cache_access",
+              "mode": "managed",
+              "type": "aws_security_group",
+              "name": "main_cache_access",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 1,
+              "values": {
+                "arn": "arn:aws:ec2:us-east-1:402227800931:security-group/sg-0d2e3e7c544d3492d",
+                "description": "Allow access to the Elasticache",
+                "egress": [
+                  {
+                    "cidr_blocks": [
+                      "10.30.0.0/16"
+                    ],
+                    "description": "",
+                    "from_port": 0,
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "protocol": "-1",
+                    "security_groups": [],
+                    "self": false,
+                    "to_port": 0
+                  }
+                ],
+                "id": "sg-0d2e3e7c544d3492d",
+                "ingress": [
+                  {
+                    "cidr_blocks": [
+                      "10.250.0.0/16"
+                    ],
+                    "description": "",
+                    "from_port": 6379,
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "protocol": "tcp",
+                    "security_groups": [],
+                    "self": false,
+                    "to_port": 6379
+                  },
+                  {
+                    "cidr_blocks": [
+                      "10.30.0.0/16"
+                    ],
+                    "description": "",
+                    "from_port": 6379,
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "protocol": "tcp",
+                    "security_groups": [],
+                    "self": false,
+                    "to_port": 6379
+                  }
+                ],
+                "name": "tf-d1-elasticache-redis",
+                "name_prefix": "",
+                "owner_id": "402227800931",
+                "revoke_rules_on_delete": false,
+                "tags": {
+                  "Environment": "d1",
+                  "Name": "d1-redis-ElastiCache-sg",
+                  "Terraform": "true"
+                },
+                "tags_all": {
+                  "Environment": "d1",
+                  "Name": "d1-redis-ElastiCache-sg",
+                  "Terraform": "true"
+                },
+                "timeouts": {
+                  "create": null,
+                  "delete": null
+                },
+                "vpc_id": "vpc-0ed226256711d6ba2"
+              },
+              "sensitive_values": {
+                "egress": [
+                  {
+                    "cidr_blocks": [
+                      false
+                    ],
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "security_groups": []
+                  }
+                ],
+                "ingress": [
+                  {
+                    "cidr_blocks": [
+                      false
+                    ],
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "security_groups": []
+                  },
+                  {
+                    "cidr_blocks": [
+                      false
+                    ],
+                    "ipv6_cidr_blocks": [],
+                    "prefix_list_ids": [],
+                    "security_groups": []
+                  }
+                ],
+                "tags": {},
+                "tags_all": {},
+                "timeouts": {}
+              }
+            },
+            {
+              "address": "module.elasticache_redis.aws_security_group_rule.allow_admins",
+              "mode": "managed",
+              "type": "aws_security_group_rule",
+              "name": "allow_admins",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 2,
+              "values": {
+                "cidr_blocks": [
+                  "10.250.0.0/16"
+                ],
+                "description": "",
+                "from_port": 6379,
+                "id": "sgrule-1115428396",
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_group_id": "sg-0d2e3e7c544d3492d",
+                "security_group_rule_id": "sgr-006fb0a739b7f5412",
+                "self": false,
+                "source_security_group_id": null,
+                "timeouts": null,
+                "to_port": 6379,
+                "type": "ingress"
+              },
+              "sensitive_values": {
+                "cidr_blocks": [
+                  false
+                ],
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": []
+              }
+            },
+            {
+              "address": "module.elasticache_redis.aws_security_group_rule.allow_all_outbound",
+              "mode": "managed",
+              "type": "aws_security_group_rule",
+              "name": "allow_all_outbound",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 2,
+              "values": {
+                "cidr_blocks": [
+                  "10.30.0.0/16"
+                ],
+                "description": "",
+                "from_port": 0,
+                "id": "sgrule-3853877716",
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_group_id": "sg-0d2e3e7c544d3492d",
+                "security_group_rule_id": "sgr-08fb1d4de6428239a",
+                "self": false,
+                "source_security_group_id": null,
+                "timeouts": null,
+                "to_port": 0,
+                "type": "egress"
+              },
+              "sensitive_values": {
+                "cidr_blocks": [
+                  false
+                ],
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": []
+              }
+            },
+            {
+              "address": "module.elasticache_redis.aws_security_group_rule.allow_cache_access",
+              "mode": "managed",
+              "type": "aws_security_group_rule",
+              "name": "allow_cache_access",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 2,
+              "values": {
+                "cidr_blocks": [
+                  "10.30.0.0/16"
+                ],
+                "description": "",
+                "from_port": 6379,
+                "id": "sgrule-126551625",
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_group_id": "sg-0d2e3e7c544d3492d",
+                "security_group_rule_id": "sgr-04a8a4cd5b6dcd3ed",
+                "self": false,
+                "source_security_group_id": null,
+                "timeouts": null,
+                "to_port": 6379,
+                "type": "ingress"
+              },
+              "sensitive_values": {
+                "cidr_blocks": [
+                  false
+                ],
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": []
+              }
+            }
+          ],
+          "address": "module.elasticache_redis"
+        }
+      ]
+    }
+  },
+  "resource_changes": [
+    {
+      "address": "module.elasticache_redis.aws_elasticache_cluster.cluster",
+      "module_address": "module.elasticache_redis",
+      "mode": "managed",
+      "type": "aws_elasticache_cluster",
+      "name": "cluster",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": [
+          "update"
+        ],
+        "before": {
+          "apply_immediately": null,
+          "arn": "arn:aws:elasticache:us-east-1:402227800931:cluster:d1-redis",
+          "auto_minor_version_upgrade": "true",
+          "availability_zone": "us-east-1f",
+          "az_mode": "single-az",
+          "cache_nodes": [
+            {
+              "address": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+              "availability_zone": "us-east-1f",
+              "id": "0001",
+              "outpost_arn": "",
+              "port": 6379
+            }
+          ],
+          "cluster_address": null,
+          "cluster_id": "d1-redis",
+          "configuration_endpoint": null,
+          "engine": "redis",
+          "engine_version": "6.2",
+          "engine_version_actual": "6.2.6",
+          "final_snapshot_identifier": null,
+          "id": "d1-redis",
+          "ip_discovery": "ipv4",
+          "log_delivery_configuration": [],
+          "maintenance_window": "sun:05:00-sun:06:00",
+          "network_type": "ipv4",
+          "node_type": "cache.t4g.small",
+          "notification_topic_arn": null,
+          "num_cache_nodes": 1,
+          "outpost_mode": null,
+          "parameter_group_name": "d1-redis-cache-params",
+          "port": 6379,
+          "preferred_availability_zones": null,
+          "preferred_outpost_arn": "",
+          "replication_group_id": "",
+          "security_group_ids": [
+            "sg-0d2e3e7c544d3492d"
+          ],
+          "snapshot_arns": null,
+          "snapshot_name": null,
+          "snapshot_retention_limit": 0,
+          "snapshot_window": "10:00-11:00",
+          "subnet_group_name": "subnet-group-d1-redis",
+          "tags": {
+            "Environment": "d1",
+            "Name": "d1",
+            "Terraform": "true"
+          },
+          "tags_all": {
+            "Environment": "d1",
+            "Name": "d1",
+            "Terraform": "true"
+          },
+          "transit_encryption_enabled": false
+        },
+        "after": {
+          "apply_immediately": null,
+          "arn": "arn:aws:elasticache:us-east-1:402227800931:cluster:d1-redis",
+          "auto_minor_version_upgrade": "true",
+          "availability_zone": "us-east-1f",
+          "az_mode": "single-az",
+          "cache_nodes": [
+            {
+              "address": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+              "availability_zone": "us-east-1f",
+              "id": "0001",
+              "outpost_arn": "",
+              "port": 6379
+            }
+          ],
+          "cluster_address": null,
+          "cluster_id": "d1-redis",
+          "configuration_endpoint": null,
+          "engine": "redis",
+          "engine_version": "6.2",
+          "engine_version_actual": "6.2.6",
+          "final_snapshot_identifier": null,
+          "id": "d1-redis",
+          "ip_discovery": "ipv4",
+          "log_delivery_configuration": [],
+          "maintenance_window": "sun:05:00-sun:06:00",
+          "network_type": "ipv4",
+          "node_type": "cache.t4g.small",
+          "notification_topic_arn": null,
+          "num_cache_nodes": 1,
+          "outpost_mode": null,
+          "port": 6379,
+          "preferred_availability_zones": null,
+          "preferred_outpost_arn": "",
+          "replication_group_id": "",
+          "security_group_ids": [
+            "sg-0d2e3e7c544d3492d"
+          ],
+          "snapshot_arns": null,
+          "snapshot_name": null,
+          "snapshot_retention_limit": 0,
+          "snapshot_window": "10:00-11:00",
+          "subnet_group_name": "subnet-group-d1-redis",
+          "tags": {
+            "Environment": "d1",
+            "Name": "d1",
+            "Terraform": "true"
+          },
+          "tags_all": {
+            "Environment": "d1",
+            "Name": "d1",
+            "Terraform": "true"
+          },
+          "transit_encryption_enabled": false
+        },
+        "after_unknown": {
+          "cache_nodes": [
+            {}
+          ],
+          "log_delivery_configuration": [],
+          "parameter_group_name": true,
+          "security_group_ids": [
+            false
+          ],
+          "tags": {},
+          "tags_all": {}
+        },
+        "before_sensitive": {
+          "cache_nodes": [
+            {}
+          ],
+          "log_delivery_configuration": [],
+          "security_group_ids": [
+            false
+          ],
+          "tags": {},
+          "tags_all": {}
+        },
+        "after_sensitive": {
+          "cache_nodes": [
+            {}
+          ],
+          "log_delivery_configuration": [],
+          "security_group_ids": [
+            false
+          ],
+          "tags": {},
+          "tags_all": {}
+        }
+      }
+    },
+    {
+      "address": "module.elasticache_redis.aws_elasticache_parameter_group.default",
+      "module_address": "module.elasticache_redis",
+      "mode": "managed",
+      "type": "aws_elasticache_parameter_group",
+      "name": "default",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": [
+          "create",
+          "delete"
+        ],
+        "before": {
+          "arn": "arn:aws:elasticache:us-east-1:402227800931:parametergroup:d1-redis-cache-params",
+          "description": "Managed by Terraform",
+          "family": "redis6.x",
+          "id": "d1-redis-cache-params",
+          "name": "d1-redis-cache-params",
+          "parameter": [
+            {
+              "name": "databases",
+              "value": "64"
+            }
+          ],
+          "tags": {},
+          "tags_all": {}
+        },
+        "after": {
+          "description": "Managed by Terraform",
+          "family": "redis6.x",
+          "name": "d1-redis6.x-cache-params",
+          "parameter": [
+            {
+              "name": "databases",
+              "value": "64"
+            }
+          ],
+          "tags": null
+        },
+        "after_unknown": {
+          "arn": true,
+          "id": true,
+          "parameter": [
+            {}
+          ],
+          "tags_all": true
+        },
+        "before_sensitive": {
+          "parameter": [
+            {}
+          ],
+          "tags": {},
+          "tags_all": {}
+        },
+        "after_sensitive": {
+          "parameter": [
+            {}
+          ],
+          "tags_all": {}
+        },
+        "replace_paths": [
+          [
+            "name"
+          ]
+        ]
+      },
+      "action_reason": "replace_because_cannot_update"
+    },
+    {
+      "address": "module.elasticache_redis.aws_elasticache_subnet_group.default",
+      "module_address": "module.elasticache_redis",
+      "mode": "managed",
+      "type": "aws_elasticache_subnet_group",
+      "name": "default",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": [
+          "no-op"
+        ],
+        "before": {
+          "arn": "arn:aws:elasticache:us-east-1:402227800931:subnetgroup:subnet-group-d1-redis",
+          "description": "Private subnets for the ElastiCache instances: d1",
+          "id": "subnet-group-d1-redis",
+          "name": "subnet-group-d1-redis",
+          "subnet_ids": [
+            "subnet-057a6fcd0eb6cb7c0",
+            "subnet-0f51cac6c06023342"
+          ],
+          "tags": {},
+          "tags_all": {},
+          "vpc_id": "vpc-0ed226256711d6ba2"
+        },
+        "after": {
+          "arn": "arn:aws:elasticache:us-east-1:402227800931:subnetgroup:subnet-group-d1-redis",
+          "description": "Private subnets for the ElastiCache instances: d1",
+          "id": "subnet-group-d1-redis",
+          "name": "subnet-group-d1-redis",
+          "subnet_ids": [
+            "subnet-057a6fcd0eb6cb7c0",
+            "subnet-0f51cac6c06023342"
+          ],
+          "tags": {},
+          "tags_all": {},
+          "vpc_id": "vpc-0ed226256711d6ba2"
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "subnet_ids": [
+            false,
+            false
+          ],
+          "tags": {},
+          "tags_all": {}
+        },
+        "after_sensitive": {
+          "subnet_ids": [
+            false,
+            false
+          ],
+          "tags": {},
+          "tags_all": {}
+        }
+      }
+    },
+    {
+      "address": "module.elasticache_redis.aws_security_group.main_cache_access",
+      "module_address": "module.elasticache_redis",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "main_cache_access",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": [
+          "no-op"
+        ],
+        "before": {
+          "arn": "arn:aws:ec2:us-east-1:402227800931:security-group/sg-0d2e3e7c544d3492d",
+          "description": "Allow access to the Elasticache",
+          "egress": [
+            {
+              "cidr_blocks": [
+                "10.30.0.0/16"
+              ],
+              "description": "",
+              "from_port": 0,
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "protocol": "-1",
+              "security_groups": [],
+              "self": false,
+              "to_port": 0
+            }
+          ],
+          "id": "sg-0d2e3e7c544d3492d",
+          "ingress": [
+            {
+              "cidr_blocks": [
+                "10.250.0.0/16"
+              ],
+              "description": "",
+              "from_port": 6379,
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "protocol": "tcp",
+              "security_groups": [],
+              "self": false,
+              "to_port": 6379
+            },
+            {
+              "cidr_blocks": [
+                "10.30.0.0/16"
+              ],
+              "description": "",
+              "from_port": 6379,
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "protocol": "tcp",
+              "security_groups": [],
+              "self": false,
+              "to_port": 6379
+            }
+          ],
+          "name": "tf-d1-elasticache-redis",
+          "name_prefix": "",
+          "owner_id": "402227800931",
+          "revoke_rules_on_delete": false,
+          "tags": {
+            "Environment": "d1",
+            "Name": "d1-redis-ElastiCache-sg",
+            "Terraform": "true"
+          },
+          "tags_all": {
+            "Environment": "d1",
+            "Name": "d1-redis-ElastiCache-sg",
+            "Terraform": "true"
+          },
+          "timeouts": {
+            "create": null,
+            "delete": null
+          },
+          "vpc_id": "vpc-0ed226256711d6ba2"
+        },
+        "after": {
+          "arn": "arn:aws:ec2:us-east-1:402227800931:security-group/sg-0d2e3e7c544d3492d",
+          "description": "Allow access to the Elasticache",
+          "egress": [
+            {
+              "cidr_blocks": [
+                "10.30.0.0/16"
+              ],
+              "description": "",
+              "from_port": 0,
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "protocol": "-1",
+              "security_groups": [],
+              "self": false,
+              "to_port": 0
+            }
+          ],
+          "id": "sg-0d2e3e7c544d3492d",
+          "ingress": [
+            {
+              "cidr_blocks": [
+                "10.250.0.0/16"
+              ],
+              "description": "",
+              "from_port": 6379,
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "protocol": "tcp",
+              "security_groups": [],
+              "self": false,
+              "to_port": 6379
+            },
+            {
+              "cidr_blocks": [
+                "10.30.0.0/16"
+              ],
+              "description": "",
+              "from_port": 6379,
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "protocol": "tcp",
+              "security_groups": [],
+              "self": false,
+              "to_port": 6379
+            }
+          ],
+          "name": "tf-d1-elasticache-redis",
+          "name_prefix": "",
+          "owner_id": "402227800931",
+          "revoke_rules_on_delete": false,
+          "tags": {
+            "Environment": "d1",
+            "Name": "d1-redis-ElastiCache-sg",
+            "Terraform": "true"
+          },
+          "tags_all": {
+            "Environment": "d1",
+            "Name": "d1-redis-ElastiCache-sg",
+            "Terraform": "true"
+          },
+          "timeouts": {
+            "create": null,
+            "delete": null
+          },
+          "vpc_id": "vpc-0ed226256711d6ba2"
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "egress": [
+            {
+              "cidr_blocks": [
+                false
+              ],
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "security_groups": []
+            }
+          ],
+          "ingress": [
+            {
+              "cidr_blocks": [
+                false
+              ],
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "security_groups": []
+            },
+            {
+              "cidr_blocks": [
+                false
+              ],
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "security_groups": []
+            }
+          ],
+          "tags": {},
+          "tags_all": {},
+          "timeouts": {}
+        },
+        "after_sensitive": {
+          "egress": [
+            {
+              "cidr_blocks": [
+                false
+              ],
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "security_groups": []
+            }
+          ],
+          "ingress": [
+            {
+              "cidr_blocks": [
+                false
+              ],
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "security_groups": []
+            },
+            {
+              "cidr_blocks": [
+                false
+              ],
+              "ipv6_cidr_blocks": [],
+              "prefix_list_ids": [],
+              "security_groups": []
+            }
+          ],
+          "tags": {},
+          "tags_all": {},
+          "timeouts": {}
+        }
+      }
+    },
+    {
+      "address": "module.elasticache_redis.aws_security_group_rule.allow_admins",
+      "module_address": "module.elasticache_redis",
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "allow_admins",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": [
+          "no-op"
+        ],
+        "before": {
+          "cidr_blocks": [
+            "10.250.0.0/16"
+          ],
+          "description": "",
+          "from_port": 6379,
+          "id": "sgrule-1115428396",
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": [],
+          "protocol": "tcp",
+          "security_group_id": "sg-0d2e3e7c544d3492d",
+          "security_group_rule_id": "sgr-006fb0a739b7f5412",
+          "self": false,
+          "source_security_group_id": null,
+          "timeouts": null,
+          "to_port": 6379,
+          "type": "ingress"
+        },
+        "after": {
+          "cidr_blocks": [
+            "10.250.0.0/16"
+          ],
+          "description": "",
+          "from_port": 6379,
+          "id": "sgrule-1115428396",
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": [],
+          "protocol": "tcp",
+          "security_group_id": "sg-0d2e3e7c544d3492d",
+          "security_group_rule_id": "sgr-006fb0a739b7f5412",
+          "self": false,
+          "source_security_group_id": null,
+          "timeouts": null,
+          "to_port": 6379,
+          "type": "ingress"
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "cidr_blocks": [
+            false
+          ],
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": []
+        },
+        "after_sensitive": {
+          "cidr_blocks": [
+            false
+          ],
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": []
+        }
+      }
+    },
+    {
+      "address": "module.elasticache_redis.aws_security_group_rule.allow_all_outbound",
+      "module_address": "module.elasticache_redis",
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "allow_all_outbound",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": [
+          "no-op"
+        ],
+        "before": {
+          "cidr_blocks": [
+            "10.30.0.0/16"
+          ],
+          "description": "",
+          "from_port": 0,
+          "id": "sgrule-3853877716",
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": [],
+          "protocol": "-1",
+          "security_group_id": "sg-0d2e3e7c544d3492d",
+          "security_group_rule_id": "sgr-08fb1d4de6428239a",
+          "self": false,
+          "source_security_group_id": null,
+          "timeouts": null,
+          "to_port": 0,
+          "type": "egress"
+        },
+        "after": {
+          "cidr_blocks": [
+            "10.30.0.0/16"
+          ],
+          "description": "",
+          "from_port": 0,
+          "id": "sgrule-3853877716",
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": [],
+          "protocol": "-1",
+          "security_group_id": "sg-0d2e3e7c544d3492d",
+          "security_group_rule_id": "sgr-08fb1d4de6428239a",
+          "self": false,
+          "source_security_group_id": null,
+          "timeouts": null,
+          "to_port": 0,
+          "type": "egress"
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "cidr_blocks": [
+            false
+          ],
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": []
+        },
+        "after_sensitive": {
+          "cidr_blocks": [
+            false
+          ],
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": []
+        }
+      }
+    },
+    {
+      "address": "module.elasticache_redis.aws_security_group_rule.allow_cache_access",
+      "module_address": "module.elasticache_redis",
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "allow_cache_access",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": [
+          "no-op"
+        ],
+        "before": {
+          "cidr_blocks": [
+            "10.30.0.0/16"
+          ],
+          "description": "",
+          "from_port": 6379,
+          "id": "sgrule-126551625",
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": [],
+          "protocol": "tcp",
+          "security_group_id": "sg-0d2e3e7c544d3492d",
+          "security_group_rule_id": "sgr-04a8a4cd5b6dcd3ed",
+          "self": false,
+          "source_security_group_id": null,
+          "timeouts": null,
+          "to_port": 6379,
+          "type": "ingress"
+        },
+        "after": {
+          "cidr_blocks": [
+            "10.30.0.0/16"
+          ],
+          "description": "",
+          "from_port": 6379,
+          "id": "sgrule-126551625",
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": [],
+          "protocol": "tcp",
+          "security_group_id": "sg-0d2e3e7c544d3492d",
+          "security_group_rule_id": "sgr-04a8a4cd5b6dcd3ed",
+          "self": false,
+          "source_security_group_id": null,
+          "timeouts": null,
+          "to_port": 6379,
+          "type": "ingress"
+        },
+        "after_unknown": {},
+        "before_sensitive": {
+          "cidr_blocks": [
+            false
+          ],
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": []
+        },
+        "after_sensitive": {
+          "cidr_blocks": [
+            false
+          ],
+          "ipv6_cidr_blocks": [],
+          "prefix_list_ids": []
+        }
+      }
+    }
+  ],
+  "output_changes": {
+    "cache_security_group_id": {
+      "actions": [
+        "no-op"
+      ],
+      "before": "sg-0d2e3e7c544d3492d",
+      "after": "sg-0d2e3e7c544d3492d",
+      "after_unknown": false,
+      "before_sensitive": false,
+      "after_sensitive": false
+    },
+    "endpoint": {
+      "actions": [
+        "no-op"
+      ],
+      "before": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com:6379",
+      "after": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com:6379",
+      "after_unknown": false,
+      "before_sensitive": false,
+      "after_sensitive": false
+    },
+    "fqdn": {
+      "actions": [
+        "no-op"
+      ],
+      "before": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+      "after": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+      "after_unknown": false,
+      "before_sensitive": false,
+      "after_sensitive": false
+    },
+    "hostname": {
+      "actions": [
+        "no-op"
+      ],
+      "before": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+      "after": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+      "after_unknown": false,
+      "before_sensitive": false,
+      "after_sensitive": false
+    },
+    "port": {
+      "actions": [
+        "no-op"
+      ],
+      "before": 6379,
+      "after": 6379,
+      "after_unknown": false,
+      "before_sensitive": false,
+      "after_sensitive": false
+    }
+  },
+  "prior_state": {
+    "format_version": "1.0",
+    "terraform_version": "1.9.8",
+    "values": {
+      "outputs": {
+        "cache_security_group_id": {
+          "sensitive": false,
+          "value": "sg-0d2e3e7c544d3492d",
+          "type": "string"
+        },
+        "endpoint": {
+          "sensitive": false,
+          "value": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com:6379",
+          "type": "string"
+        },
+        "fqdn": {
+          "sensitive": false,
+          "value": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+          "type": "string"
+        },
+        "hostname": {
+          "sensitive": false,
+          "value": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+          "type": "string"
+        },
+        "port": {
+          "sensitive": false,
+          "value": 6379,
+          "type": "number"
+        }
+      },
+      "root_module": {
+        "resources": [
+          {
+            "address": "data.terraform_remote_state.network_state",
+            "mode": "data",
+            "type": "terraform_remote_state",
+            "name": "network_state",
+            "provider_name": "terraform.io/builtin/terraform",
+            "schema_version": 0,
+            "values": {
+              "backend": "s3",
+              "config": {
+                "bucket": "cnvy-d1.tf",
+                "key": "state/d1/network/tf-aws-vpc.state"
+              },
+              "defaults": null,
+              "outputs": {
+                "admin_cidr": "10.250.0.0/16",
+                "admin_pcx": "pcx-0d89e98dd27646de5",
+                "default_acl_id": "acl-016609dc85f24acf0",
+                "default_security_group_id": "sg-021d69880f03173d8",
+                "igw_id": "igw-0b8c5f5844667443a",
+                "nat_eips": [
+                  "eipalloc-05cce6586f8099036",
+                  "eipalloc-074374d4578a940a1"
+                ],
+                "nat_gws_per_zone": {
+                  "us-east-1d": "nat-0814d5925fd98d702",
+                  "us-east-1f": "nat-08aa072fb63e716a9"
+                },
+                "private_availability_zones": [
+                  "us-east-1d",
+                  "us-east-1f"
+                ],
+                "private_route_table_ids": [
+                  "rtb-08efa57124f96f299",
+                  "rtb-07e563f7afdec1207"
+                ],
+                "private_subnets": [
+                  "subnet-057a6fcd0eb6cb7c0",
+                  "subnet-0f51cac6c06023342"
+                ],
+                "public_availability_zones": [
+                  "us-east-1d",
+                  "us-east-1f"
+                ],
+                "public_route_table_ids": [
+                  "rtb-0d56e74a693114de1"
+                ],
+                "public_subnets": [
+                  "subnet-01d0357ec8fada763",
+                  "subnet-09a0a75b04925ae75"
+                ],
+                "vpc_cidr": "10.30.0.0/16",
+                "vpc_id": "vpc-0ed226256711d6ba2",
+                "vpc_s3_endpoints": {
+                  "pl-63a5400a": "vpce-069a892622979de68"
+                }
+              },
+              "workspace": null
+            },
+            "sensitive_values": {
+              "config": {},
+              "outputs": {
+                "nat_eips": [
+                  false,
+                  false
+                ],
+                "nat_gws_per_zone": {},
+                "private_availability_zones": [
+                  false,
+                  false
+                ],
+                "private_route_table_ids": [
+                  false,
+                  false
+                ],
+                "private_subnets": [
+                  false,
+                  false
+                ],
+                "public_availability_zones": [
+                  false,
+                  false
+                ],
+                "public_route_table_ids": [
+                  false
+                ],
+                "public_subnets": [
+                  false,
+                  false
+                ],
+                "vpc_s3_endpoints": {}
+              }
+            }
+          }
+        ],
+        "child_modules": [
+          {
+            "resources": [
+              {
+                "address": "module.elasticache_redis.aws_elasticache_cluster.cluster",
+                "mode": "managed",
+                "type": "aws_elasticache_cluster",
+                "name": "cluster",
+                "provider_name": "registry.terraform.io/hashicorp/aws",
+                "schema_version": 0,
+                "values": {
+                  "apply_immediately": null,
+                  "arn": "arn:aws:elasticache:us-east-1:402227800931:cluster:d1-redis",
+                  "auto_minor_version_upgrade": "true",
+                  "availability_zone": "us-east-1f",
+                  "az_mode": "single-az",
+                  "cache_nodes": [
+                    {
+                      "address": "d1-redis.tcz8do.0001.use1.cache.amazonaws.com",
+                      "availability_zone": "us-east-1f",
+                      "id": "0001",
+                      "outpost_arn": "",
+                      "port": 6379
+                    }
+                  ],
+                  "cluster_address": null,
+                  "cluster_id": "d1-redis",
+                  "configuration_endpoint": null,
+                  "engine": "redis",
+                  "engine_version": "6.2",
+                  "engine_version_actual": "6.2.6",
+                  "final_snapshot_identifier": null,
+                  "id": "d1-redis",
+                  "ip_discovery": "ipv4",
+                  "log_delivery_configuration": [],
+                  "maintenance_window": "sun:05:00-sun:06:00",
+                  "network_type": "ipv4",
+                  "node_type": "cache.t4g.small",
+                  "notification_topic_arn": null,
+                  "num_cache_nodes": 1,
+                  "outpost_mode": null,
+                  "parameter_group_name": "d1-redis-cache-params",
+                  "port": 6379,
+                  "preferred_availability_zones": null,
+                  "preferred_outpost_arn": "",
+                  "replication_group_id": "",
+                  "security_group_ids": [
+                    "sg-0d2e3e7c544d3492d"
+                  ],
+                  "snapshot_arns": null,
+                  "snapshot_name": null,
+                  "snapshot_retention_limit": 0,
+                  "snapshot_window": "10:00-11:00",
+                  "subnet_group_name": "subnet-group-d1-redis",
+                  "tags": {
+                    "Environment": "d1",
+                    "Name": "d1",
+                    "Terraform": "true"
+                  },
+                  "tags_all": {
+                    "Environment": "d1",
+                    "Name": "d1",
+                    "Terraform": "true"
+                  },
+                  "transit_encryption_enabled": false
+                },
+                "sensitive_values": {
+                  "cache_nodes": [
+                    {}
+                  ],
+                  "log_delivery_configuration": [],
+                  "security_group_ids": [
+                    false
+                  ],
+                  "tags": {},
+                  "tags_all": {}
+                },
+                "depends_on": [
+                  "data.terraform_remote_state.network_state",
+                  "module.elasticache_redis.aws_elasticache_parameter_group.default",
+                  "module.elasticache_redis.aws_elasticache_subnet_group.default",
+                  "module.elasticache_redis.aws_security_group.main_cache_access"
+                ]
+              },
+              {
+                "address": "module.elasticache_redis.aws_elasticache_parameter_group.default",
+                "mode": "managed",
+                "type": "aws_elasticache_parameter_group",
+                "name": "default",
+                "provider_name": "registry.terraform.io/hashicorp/aws",
+                "schema_version": 0,
+                "values": {
+                  "arn": "arn:aws:elasticache:us-east-1:402227800931:parametergroup:d1-redis-cache-params",
+                  "description": "Managed by Terraform",
+                  "family": "redis6.x",
+                  "id": "d1-redis-cache-params",
+                  "name": "d1-redis-cache-params",
+                  "parameter": [
+                    {
+                      "name": "databases",
+                      "value": "64"
+                    }
+                  ],
+                  "tags": {},
+                  "tags_all": {}
+                },
+                "sensitive_values": {
+                  "parameter": [
+                    {}
+                  ],
+                  "tags": {},
+                  "tags_all": {}
+                }
+              },
+              {
+                "address": "module.elasticache_redis.aws_elasticache_subnet_group.default",
+                "mode": "managed",
+                "type": "aws_elasticache_subnet_group",
+                "name": "default",
+                "provider_name": "registry.terraform.io/hashicorp/aws",
+                "schema_version": 0,
+                "values": {
+                  "arn": "arn:aws:elasticache:us-east-1:402227800931:subnetgroup:subnet-group-d1-redis",
+                  "description": "Private subnets for the ElastiCache instances: d1",
+                  "id": "subnet-group-d1-redis",
+                  "name": "subnet-group-d1-redis",
+                  "subnet_ids": [
+                    "subnet-057a6fcd0eb6cb7c0",
+                    "subnet-0f51cac6c06023342"
+                  ],
+                  "tags": {},
+                  "tags_all": {},
+                  "vpc_id": "vpc-0ed226256711d6ba2"
+                },
+                "sensitive_values": {
+                  "subnet_ids": [
+                    false,
+                    false
+                  ],
+                  "tags": {},
+                  "tags_all": {}
+                },
+                "depends_on": [
+                  "data.terraform_remote_state.network_state"
+                ]
+              },
+              {
+                "address": "module.elasticache_redis.aws_security_group.main_cache_access",
+                "mode": "managed",
+                "type": "aws_security_group",
+                "name": "main_cache_access",
+                "provider_name": "registry.terraform.io/hashicorp/aws",
+                "schema_version": 1,
+                "values": {
+                  "arn": "arn:aws:ec2:us-east-1:402227800931:security-group/sg-0d2e3e7c544d3492d",
+                  "description": "Allow access to the Elasticache",
+                  "egress": [
+                    {
+                      "cidr_blocks": [
+                        "10.30.0.0/16"
+                      ],
+                      "description": "",
+                      "from_port": 0,
+                      "ipv6_cidr_blocks": [],
+                      "prefix_list_ids": [],
+                      "protocol": "-1",
+                      "security_groups": [],
+                      "self": false,
+                      "to_port": 0
+                    }
+                  ],
+                  "id": "sg-0d2e3e7c544d3492d",
+                  "ingress": [
+                    {
+                      "cidr_blocks": [
+                        "10.250.0.0/16"
+                      ],
+                      "description": "",
+                      "from_port": 6379,
+                      "ipv6_cidr_blocks": [],
+                      "prefix_list_ids": [],
+                      "protocol": "tcp",
+                      "security_groups": [],
+                      "self": false,
+                      "to_port": 6379
+                    },
+                    {
+                      "cidr_blocks": [
+                        "10.30.0.0/16"
+                      ],
+                      "description": "",
+                      "from_port": 6379,
+                      "ipv6_cidr_blocks": [],
+                      "prefix_list_ids": [],
+                      "protocol": "tcp",
+                      "security_groups": [],
+                      "self": false,
+                      "to_port": 6379
+                    }
+                  ],
+                  "name": "tf-d1-elasticache-redis",
+                  "name_prefix": "",
+                  "owner_id": "402227800931",
+                  "revoke_rules_on_delete": false,
+                  "tags": {
+                    "Environment": "d1",
+                    "Name": "d1-redis-ElastiCache-sg",
+                    "Terraform": "true"
+                  },
+                  "tags_all": {
+                    "Environment": "d1",
+                    "Name": "d1-redis-ElastiCache-sg",
+                    "Terraform": "true"
+                  },
+                  "timeouts": {
+                    "create": null,
+                    "delete": null
+                  },
+                  "vpc_id": "vpc-0ed226256711d6ba2"
+                },
+                "sensitive_values": {
+                  "egress": [
+                    {
+                      "cidr_blocks": [
+                        false
+                      ],
+                      "ipv6_cidr_blocks": [],
+                      "prefix_list_ids": [],
+                      "security_groups": []
+                    }
+                  ],
+                  "ingress": [
+                    {
+                      "cidr_blocks": [
+                        false
+                      ],
+                      "ipv6_cidr_blocks": [],
+                      "prefix_list_ids": [],
+                      "security_groups": []
+                    },
+                    {
+                      "cidr_blocks": [
+                        false
+                      ],
+                      "ipv6_cidr_blocks": [],
+                      "prefix_list_ids": [],
+                      "security_groups": []
+                    }
+                  ],
+                  "tags": {},
+                  "tags_all": {},
+                  "timeouts": {}
+                },
+                "depends_on": [
+                  "data.terraform_remote_state.network_state"
+                ]
+              },
+              {
+                "address": "module.elasticache_redis.aws_security_group_rule.allow_admins",
+                "mode": "managed",
+                "type": "aws_security_group_rule",
+                "name": "allow_admins",
+                "provider_name": "registry.terraform.io/hashicorp/aws",
+                "schema_version": 2,
+                "values": {
+                  "cidr_blocks": [
+                    "10.250.0.0/16"
+                  ],
+                  "description": "",
+                  "from_port": 6379,
+                  "id": "sgrule-1115428396",
+                  "ipv6_cidr_blocks": [],
+                  "prefix_list_ids": [],
+                  "protocol": "tcp",
+                  "security_group_id": "sg-0d2e3e7c544d3492d",
+                  "security_group_rule_id": "sgr-006fb0a739b7f5412",
+                  "self": false,
+                  "source_security_group_id": null,
+                  "timeouts": null,
+                  "to_port": 6379,
+                  "type": "ingress"
+                },
+                "sensitive_values": {
+                  "cidr_blocks": [
+                    false
+                  ],
+                  "ipv6_cidr_blocks": [],
+                  "prefix_list_ids": []
+                },
+                "depends_on": [
+                  "data.terraform_remote_state.network_state",
+                  "module.elasticache_redis.aws_security_group.main_cache_access"
+                ]
+              },
+              {
+                "address": "module.elasticache_redis.aws_security_group_rule.allow_all_outbound",
+                "mode": "managed",
+                "type": "aws_security_group_rule",
+                "name": "allow_all_outbound",
+                "provider_name": "registry.terraform.io/hashicorp/aws",
+                "schema_version": 2,
+                "values": {
+                  "cidr_blocks": [
+                    "10.30.0.0/16"
+                  ],
+                  "description": "",
+                  "from_port": 0,
+                  "id": "sgrule-3853877716",
+                  "ipv6_cidr_blocks": [],
+                  "prefix_list_ids": [],
+                  "protocol": "-1",
+                  "security_group_id": "sg-0d2e3e7c544d3492d",
+                  "security_group_rule_id": "sgr-08fb1d4de6428239a",
+                  "self": false,
+                  "source_security_group_id": null,
+                  "timeouts": null,
+                  "to_port": 0,
+                  "type": "egress"
+                },
+                "sensitive_values": {
+                  "cidr_blocks": [
+                    false
+                  ],
+                  "ipv6_cidr_blocks": [],
+                  "prefix_list_ids": []
+                },
+                "depends_on": [
+                  "data.terraform_remote_state.network_state",
+                  "module.elasticache_redis.aws_security_group.main_cache_access"
+                ]
+              },
+              {
+                "address": "module.elasticache_redis.aws_security_group_rule.allow_cache_access",
+                "mode": "managed",
+                "type": "aws_security_group_rule",
+                "name": "allow_cache_access",
+                "provider_name": "registry.terraform.io/hashicorp/aws",
+                "schema_version": 2,
+                "values": {
+                  "cidr_blocks": [
+                    "10.30.0.0/16"
+                  ],
+                  "description": "",
+                  "from_port": 6379,
+                  "id": "sgrule-126551625",
+                  "ipv6_cidr_blocks": [],
+                  "prefix_list_ids": [],
+                  "protocol": "tcp",
+                  "security_group_id": "sg-0d2e3e7c544d3492d",
+                  "security_group_rule_id": "sgr-04a8a4cd5b6dcd3ed",
+                  "self": false,
+                  "source_security_group_id": null,
+                  "timeouts": null,
+                  "to_port": 6379,
+                  "type": "ingress"
+                },
+                "sensitive_values": {
+                  "cidr_blocks": [
+                    false
+                  ],
+                  "ipv6_cidr_blocks": [],
+                  "prefix_list_ids": []
+                },
+                "depends_on": [
+                  "data.terraform_remote_state.network_state",
+                  "module.elasticache_redis.aws_security_group.main_cache_access"
+                ]
+              }
+            ],
+            "address": "module.elasticache_redis"
+          }
+        ]
+      }
+    }
+  },
+  "configuration": {
+    "provider_config": {
+      "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "~> 5.79.0"
+      },
+      "terraform": {
+        "name": "terraform",
+        "full_name": "terraform.io/builtin/terraform"
+      }
+    },
+    "root_module": {
+      "outputs": {
+        "cache_security_group_id": {
+          "expression": {
+            "references": [
+              "module.elasticache_redis.cache_security_group_id",
+              "module.elasticache_redis"
+            ]
+          }
+        },
+        "endpoint": {
+          "expression": {
+            "references": [
+              "module.elasticache_redis.endpoint",
+              "module.elasticache_redis"
+            ]
+          }
+        },
+        "fqdn": {
+          "expression": {
+            "references": [
+              "module.elasticache_redis.fqdn",
+              "module.elasticache_redis"
+            ]
+          }
+        },
+        "hostname": {
+          "expression": {
+            "references": [
+              "module.elasticache_redis.hostname",
+              "module.elasticache_redis"
+            ]
+          }
+        },
+        "port": {
+          "expression": {
+            "references": [
+              "module.elasticache_redis.port",
+              "module.elasticache_redis"
+            ]
+          }
+        }
+      },
+      "resources": [
+        {
+          "address": "data.terraform_remote_state.network_state",
+          "mode": "data",
+          "type": "terraform_remote_state",
+          "name": "network_state",
+          "provider_config_key": "terraform",
+          "expressions": {
+            "backend": {
+              "constant_value": "s3"
+            },
+            "config": {
+              "references": [
+                "var.remote_state_s3_bucket",
+                "var.Environment"
+              ]
+            }
+          },
+          "schema_version": 0
+        }
+      ],
+      "module_calls": {
+        "elasticache_redis": {
+          "source": "./../../../../modules/services/eks-elasticache/",
+          "expressions": {
+            "Environment": {
+              "references": [
+                "var.Environment"
+              ]
+            },
+            "engine": {
+              "references": [
+                "var.engine"
+              ]
+            },
+            "engine_version": {
+              "references": [
+                "var.engine_version"
+              ]
+            },
+            "family": {
+              "references": [
+                "var.family"
+              ]
+            },
+            "instance_type": {
+              "references": [
+                "var.instance_type"
+              ]
+            },
+            "maintenance_window": {
+              "references": [
+                "var.maintenance_window"
+              ]
+            },
+            "num_cache_nodes": {
+              "references": [
+                "var.num_cache_nodes"
+              ]
+            },
+            "port": {
+              "references": [
+                "var.port"
+              ]
+            },
+            "subnets": {
+              "references": [
+                "var.zone",
+                "data.terraform_remote_state.network_state.outputs.public_subnets",
+                "data.terraform_remote_state.network_state.outputs",
+                "data.terraform_remote_state.network_state",
+                "data.terraform_remote_state.network_state.outputs.private_subnets",
+                "data.terraform_remote_state.network_state.outputs",
+                "data.terraform_remote_state.network_state"
+              ]
+            },
+            "vpc_cidr": {
+              "references": [
+                "data.terraform_remote_state.network_state.outputs.vpc_cidr",
+                "data.terraform_remote_state.network_state.outputs",
+                "data.terraform_remote_state.network_state"
+              ]
+            },
+            "vpc_id": {
+              "references": [
+                "data.terraform_remote_state.network_state.outputs.vpc_id",
+                "data.terraform_remote_state.network_state.outputs",
+                "data.terraform_remote_state.network_state"
+              ]
+            }
+          },
+          "module": {
+            "outputs": {
+              "cache_security_group_id": {
+                "expression": {
+                  "references": [
+                    "aws_security_group.main_cache_access.id",
+                    "aws_security_group.main_cache_access"
+                  ]
+                }
+              },
+              "endpoint": {
+                "expression": {
+                  "references": [
+                    "aws_elasticache_cluster.cluster.cache_nodes[0].address",
+                    "aws_elasticache_cluster.cluster.cache_nodes[0]",
+                    "aws_elasticache_cluster.cluster.cache_nodes",
+                    "aws_elasticache_cluster.cluster",
+                    "aws_elasticache_cluster.cluster.cache_nodes[0].port",
+                    "aws_elasticache_cluster.cluster.cache_nodes[0]",
+                    "aws_elasticache_cluster.cluster.cache_nodes",
+                    "aws_elasticache_cluster.cluster"
+                  ]
+                }
+              },
+              "fqdn": {
+                "expression": {
+                  "references": [
+                    "local.fqdn"
+                  ]
+                }
+              },
+              "hostname": {
+                "expression": {
+                  "references": [
+                    "local.fqdn"
+                  ]
+                }
+              },
+              "port": {
+                "expression": {
+                  "references": [
+                    "aws_elasticache_cluster.cluster.cache_nodes[0].port",
+                    "aws_elasticache_cluster.cluster.cache_nodes[0]",
+                    "aws_elasticache_cluster.cluster.cache_nodes",
+                    "aws_elasticache_cluster.cluster"
+                  ]
+                }
+              }
+            },
+            "resources": [
+              {
+                "address": "aws_elasticache_cluster.cluster",
+                "mode": "managed",
+                "type": "aws_elasticache_cluster",
+                "name": "cluster",
+                "provider_config_key": "aws",
+                "expressions": {
+                  "cluster_id": {
+                    "references": [
+                      "var.Environment",
+                      "var.engine"
+                    ]
+                  },
+                  "engine": {
+                    "references": [
+                      "var.engine"
+                    ]
+                  },
+                  "engine_version": {
+                    "references": [
+                      "var.engine_version"
+                    ]
+                  },
+                  "maintenance_window": {
+                    "references": [
+                      "var.maintenance_window"
+                    ]
+                  },
+                  "node_type": {
+                    "references": [
+                      "var.instance_type"
+                    ]
+                  },
+                  "num_cache_nodes": {
+                    "references": [
+                      "var.num_cache_nodes"
+                    ]
+                  },
+                  "parameter_group_name": {
+                    "references": [
+                      "aws_elasticache_parameter_group.default.id",
+                      "aws_elasticache_parameter_group.default"
+                    ]
+                  },
+                  "port": {
+                    "references": [
+                      "var.port"
+                    ]
+                  },
+                  "security_group_ids": {
+                    "references": [
+                      "aws_security_group.main_cache_access.id",
+                      "aws_security_group.main_cache_access"
+                    ]
+                  },
+                  "subnet_group_name": {
+                    "references": [
+                      "aws_elasticache_subnet_group.default.name",
+                      "aws_elasticache_subnet_group.default"
+                    ]
+                  },
+                  "tags": {
+                    "references": [
+                      "var.Environment",
+                      "var.Environment"
+                    ]
+                  }
+                },
+                "schema_version": 0
+              },
+              {
+                "address": "aws_elasticache_parameter_group.default",
+                "mode": "managed",
+                "type": "aws_elasticache_parameter_group",
+                "name": "default",
+                "provider_config_key": "aws",
+                "expressions": {
+                  "family": {
+                    "references": [
+                      "var.family"
+                    ]
+                  },
+                  "name": {
+                    "references": [
+                      "var.Environment",
+                      "var.family"
+                    ]
+                  },
+                  "parameter": [
+                    {
+                      "name": {
+                        "constant_value": "databases"
+                      },
+                      "value": {
+                        "constant_value": "64"
+                      }
+                    }
+                  ]
+                },
+                "schema_version": 0
+              },
+              {
+                "address": "aws_elasticache_subnet_group.default",
+                "mode": "managed",
+                "type": "aws_elasticache_subnet_group",
+                "name": "default",
+                "provider_config_key": "aws",
+                "expressions": {
+                  "description": {
+                    "references": [
+                      "var.Environment"
+                    ]
+                  },
+                  "name": {
+                    "references": [
+                      "var.Environment",
+                      "var.engine"
+                    ]
+                  },
+                  "subnet_ids": {
+                    "references": [
+                      "var.subnets"
+                    ]
+                  }
+                },
+                "schema_version": 0
+              },
+              {
+                "address": "aws_security_group.main_cache_access",
+                "mode": "managed",
+                "type": "aws_security_group",
+                "name": "main_cache_access",
+                "provider_config_key": "aws",
+                "expressions": {
+                  "description": {
+                    "constant_value": "Allow access to the Elasticache"
+                  },
+                  "name": {
+                    "references": [
+                      "var.Environment",
+                      "var.engine"
+                    ]
+                  },
+                  "tags": {
+                    "references": [
+                      "var.Environment",
+                      "var.engine",
+                      "var.Environment"
+                    ]
+                  },
+                  "vpc_id": {
+                    "references": [
+                      "var.vpc_id"
+                    ]
+                  }
+                },
+                "schema_version": 1
+              },
+              {
+                "address": "aws_security_group_rule.allow_admins",
+                "mode": "managed",
+                "type": "aws_security_group_rule",
+                "name": "allow_admins",
+                "provider_config_key": "aws",
+                "expressions": {
+                  "cidr_blocks": {
+                    "constant_value": [
+                      "10.250.0.0/16"
+                    ]
+                  },
+                  "from_port": {
+                    "references": [
+                      "var.port"
+                    ]
+                  },
+                  "protocol": {
+                    "constant_value": "tcp"
+                  },
+                  "security_group_id": {
+                    "references": [
+                      "aws_security_group.main_cache_access.id",
+                      "aws_security_group.main_cache_access"
+                    ]
+                  },
+                  "to_port": {
+                    "references": [
+                      "var.port"
+                    ]
+                  },
+                  "type": {
+                    "constant_value": "ingress"
+                  }
+                },
+                "schema_version": 2
+              },
+              {
+                "address": "aws_security_group_rule.allow_all_outbound",
+                "mode": "managed",
+                "type": "aws_security_group_rule",
+                "name": "allow_all_outbound",
+                "provider_config_key": "aws",
+                "expressions": {
+                  "cidr_blocks": {
+                    "references": [
+                      "var.vpc_cidr"
+                    ]
+                  },
+                  "from_port": {
+                    "constant_value": 0
+                  },
+                  "protocol": {
+                    "constant_value": "-1"
+                  },
+                  "security_group_id": {
+                    "references": [
+                      "aws_security_group.main_cache_access.id",
+                      "aws_security_group.main_cache_access"
+                    ]
+                  },
+                  "to_port": {
+                    "constant_value": 0
+                  },
+                  "type": {
+                    "constant_value": "egress"
+                  }
+                },
+                "schema_version": 2
+              },
+              {
+                "address": "aws_security_group_rule.allow_cache_access",
+                "mode": "managed",
+                "type": "aws_security_group_rule",
+                "name": "allow_cache_access",
+                "provider_config_key": "aws",
+                "expressions": {
+                  "cidr_blocks": {
+                    "references": [
+                      "var.vpc_cidr"
+                    ]
+                  },
+                  "from_port": {
+                    "references": [
+                      "var.port"
+                    ]
+                  },
+                  "protocol": {
+                    "constant_value": "tcp"
+                  },
+                  "security_group_id": {
+                    "references": [
+                      "aws_security_group.main_cache_access.id",
+                      "aws_security_group.main_cache_access"
+                    ]
+                  },
+                  "to_port": {
+                    "references": [
+                      "var.port"
+                    ]
+                  },
+                  "type": {
+                    "constant_value": "ingress"
+                  }
+                },
+                "schema_version": 2
+              }
+            ],
+            "variables": {
+              "Environment": {},
+              "engine": {},
+              "engine_version": {},
+              "family": {
+                "default": "redis4.0"
+              },
+              "instance_type": {},
+              "maintenance_window": {},
+              "num_cache_nodes": {},
+              "port": {},
+              "subnets": {},
+              "vpc_cidr": {},
+              "vpc_id": {}
+            }
+          }
+        }
+      },
+      "variables": {
+        "Environment": {},
+        "engine": {
+          "default": "redis"
+        },
+        "engine_version": {
+          "default": "2.8.24"
+        },
+        "family": {},
+        "instance_type": {
+          "default": "cache.m3.medium"
+        },
+        "maintenance_window": {
+          "default": "sun:05:00-sun:06:00"
+        },
+        "num_cache_nodes": {
+          "default": "1"
+        },
+        "port": {
+          "default": "6379"
+        },
+        "region": {},
+        "remote_state_s3_bucket": {},
+        "template_name": {},
+        "zone": {}
+      }
+    }
+  },
+  "relevant_attributes": [
+    {
+      "resource": "module.elasticache_redis.aws_elasticache_subnet_group.default",
+      "attribute": [
+        "name"
+      ]
+    },
+    {
+      "resource": "module.elasticache_redis.aws_elasticache_cluster.cluster",
+      "attribute": [
+        "cache_nodes",
+        0,
+        "port"
+      ]
+    },
+    {
+      "resource": "module.elasticache_redis.aws_elasticache_cluster.cluster",
+      "attribute": [
+        "cache_nodes",
+        0,
+        "address"
+      ]
+    },
+    {
+      "resource": "module.elasticache_redis.aws_security_group.main_cache_access",
+      "attribute": [
+        "id"
+      ]
+    },
+    {
+      "resource": "module.elasticache_redis.aws_elasticache_parameter_group.default",
+      "attribute": [
+        "id"
+      ]
+    }
+  ],
+  "timestamp": "2025-08-04T14:33:28Z",
+  "applyable": true,
+  "complete": true,
+  "errored": false
+}

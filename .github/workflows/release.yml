@@ -1,0 +1,127 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Run tests
+        run: |
+          go fmt ./...
+          go vet ./...
+          make build
+          make test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Build binaries
+        run: |
+          make release
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ steps.version.outputs.version }}
+          body: |
+            ## Changes in ${{ steps.version.outputs.version }}
+            
+            ### Downloads
+            - **Linux (x86_64)**: `tfplan-commenter-linux-amd64`
+            - **macOS (Intel)**: `tfplan-commenter-darwin-amd64`  
+            - **macOS (Apple Silicon)**: `tfplan-commenter-darwin-arm64`
+            
+            ### Installation
+            1. Download the appropriate binary for your platform
+            2. Make it executable: `chmod +x tfplan-commenter-*`
+            3. Move to your PATH: `mv tfplan-commenter-* /usr/local/bin/tfplan-commenter`
+            
+            ### Usage
+            ```bash
+            tfplan-commenter plan.json
+            tfplan-commenter -version
+            tfplan-commenter -help
+            ```
+          draft: false
+          prerelease: false
+
+      - name: Upload Linux Binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/tfplan-commenter-linux-amd64
+          asset_name: tfplan-commenter-linux-amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload macOS Intel Binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/tfplan-commenter-darwin-amd64
+          asset_name: tfplan-commenter-darwin-amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload macOS ARM Binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/tfplan-commenter-darwin-arm64
+          asset_name: tfplan-commenter-darwin-arm64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Checksums
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/checksums.txt
+          asset_name: checksums.txt
+          asset_content_type: text/plain
