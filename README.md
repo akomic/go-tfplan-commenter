@@ -4,6 +4,12 @@ A Go CLI tool that parses Terraform plan JSON files and generates Markdown comme
 
 ## Installation
 
+### Quick Install (Recommended)
+
+```bash
+curl -sSL https://raw.githubusercontent.com/akomic/go-tfplan-commenter/main/install.sh | bash
+```
+
 ### Download Pre-built Binaries
 
 Download the latest release from the [releases page](https://github.com/akomic/go-tfplan-commenter/releases):
