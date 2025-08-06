@@ -51,6 +51,102 @@ func TestFormatAttributeValue(t *testing.T) {
 	}
 }
 
+func TestHasNoChanges(t *testing.T) {
+	// Test plan with no changes
+	planNoChanges := &TerraformPlan{
+		ResourceChanges: []ResourceChange{},
+	}
+	if !hasNoChanges(planNoChanges) {
+		t.Error("Expected hasNoChanges to return true for plan with no resource changes")
+	}
+
+	// Test plan with changes
+	planWithChanges := &TerraformPlan{
+		ResourceChanges: []ResourceChange{
+			{
+				Address: "aws_s3_bucket.test",
+				Change: Change{
+					Actions: []string{"create"},
+				},
+			},
+		},
+	}
+	if hasNoChanges(planWithChanges) {
+		t.Error("Expected hasNoChanges to return false for plan with resource changes")
+	}
+}
+
+func TestFormatResourceList(t *testing.T) {
+	// Test empty list
+	emptyList := []ResourceDetail{}
+	result := formatResourceList(emptyList, 3)
+	if result != "" {
+		t.Errorf("Expected empty string for empty list, got: %s", result)
+	}
+
+	// Test list within limit
+	shortList := []ResourceDetail{
+		{Address: "aws_s3_bucket.test1"},
+		{Address: "aws_s3_bucket.test2"},
+	}
+	result = formatResourceList(shortList, 3)
+	expected := "aws_s3_bucket.test1, aws_s3_bucket.test2"
+	if result != expected {
+		t.Errorf("Expected %s, got %s", expected, result)
+	}
+
+	// Test list exceeding limit
+	longList := []ResourceDetail{
+		{Address: "aws_s3_bucket.test1"},
+		{Address: "aws_s3_bucket.test2"},
+		{Address: "aws_s3_bucket.test3"},
+		{Address: "aws_s3_bucket.test4"},
+		{Address: "aws_s3_bucket.test5"},
+	}
+	result = formatResourceList(longList, 3)
+	expected = "aws_s3_bucket.test1, aws_s3_bucket.test2, aws_s3_bucket.test3, ... (+2 more)"
+	if result != expected {
+		t.Errorf("Expected %s, got %s", expected, result)
+	}
+}
+
+func TestGenerateMultiPlanMarkdownComment(t *testing.T) {
+	// Test with empty plans
+	emptyPlans := []PlanInfo{}
+	result := generateMultiPlanMarkdownComment(emptyPlans)
+	if !strings.Contains(result, "No changes detected across all environments") {
+		t.Error("Expected message about no changes for empty plans")
+	}
+
+	// Test with plans containing changes
+	plans := []PlanInfo{
+		{
+			Plan: &TerraformPlan{
+				TerraformVersion: "1.9.8",
+				ResourceChanges: []ResourceChange{
+					{
+						Address: "aws_s3_bucket.test",
+						Change: Change{
+							Actions: []string{"create"},
+						},
+					},
+				},
+			},
+			RelativePath: "env1",
+		},
+	}
+	result = generateMultiPlanMarkdownComment(plans)
+	if !strings.Contains(result, "Multi-Environment Terraform Plan Summary") {
+		t.Error("Expected multi-environment header")
+	}
+	if !strings.Contains(result, "env1") {
+		t.Error("Expected environment name in output")
+	}
+	if !strings.Contains(result, "aws_s3_bucket.test") {
+		t.Error("Expected resource name in output")
+	}
+}
+
 func TestShouldSkipAttribute(t *testing.T) {
 	skipAttrs := []string{"id", "arn", "tags_all", "timeouts"}
 	keepAttrs := []string{"name", "family", "engine", "tags"}

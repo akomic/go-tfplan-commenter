@@ -1,0 +1,41 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.9.8",
+  "resource_changes": [
+    {
+      "address": "aws_rds_instance.database",
+      "mode": "managed",
+      "type": "aws_rds_instance",
+      "name": "database",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create", "delete"],
+        "before": {
+          "engine": "mysql",
+          "engine_version": "8.0.28",
+          "instance_class": "db.t3.micro"
+        },
+        "after": {
+          "engine": "mysql",
+          "engine_version": "8.0.35",
+          "instance_class": "db.t3.small"
+        }
+      }
+    },
+    {
+      "address": "aws_security_group.old_sg",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "old_sg",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["delete"],
+        "before": {
+          "name": "old-security-group",
+          "id": "sg-12345678"
+        },
+        "after": null
+      }
+    }
+  ]
+}
